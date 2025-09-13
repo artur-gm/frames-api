@@ -18,8 +18,8 @@ RSpec.describe "circles", type: :request do
         after do |example|
           example.metadata[:response][:content] = {
             "application/json" => {
-              example: JSON.parse(response.body, symbolize_names: true),
-            },
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
           }
         end
 
@@ -73,11 +73,11 @@ RSpec.describe "circles", type: :request do
             properties: {
               center_x: { type: :number },
               center_y: { type: :number },
-              diameter: { type: :number },
-            },
-          },
+              diameter: { type: :number }
+            }
+          }
         },
-        required: [:circle],
+        required: [ :circle ]
       }
 
       response(200, "sucesso") do
@@ -87,8 +87,8 @@ RSpec.describe "circles", type: :request do
             circle: {
               center_x: 50.5,
               center_y: 60.5,
-              diameter: 25.0,
-            },
+              diameter: 25.0
+            }
           }
         end
 
@@ -107,8 +107,8 @@ RSpec.describe "circles", type: :request do
             circle: {
               center_x: -1000, # Fora do quadro
               center_y: 60.5,
-              diameter: 25.0,
-            },
+              diameter: 25.0
+            }
           }
         end
 

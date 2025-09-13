@@ -1,5 +1,5 @@
 class CirclesController < ApplicationController
-  before_action :set_circle, only: [:update, :destroy]
+  before_action :set_circle, only: [ :update, :destroy ]
 
   def index
     circles = Circle.all
@@ -66,7 +66,7 @@ class CirclesController < ApplicationController
       center_y: circle.center_y.to_f,
       diameter: circle.diameter.to_f,
       created_at: circle.created_at,
-      updated_at: circle.updated_at,
+      updated_at: circle.updated_at
     }
   end
 end
