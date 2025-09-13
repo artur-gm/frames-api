@@ -9,10 +9,10 @@ class Circle < ApplicationRecord
 
   scope :with_calculated_edges, -> {
           select("*, " \
-                 "(center_y + diameter/2) as top_edge, " \
-                 "(center_y - diameter/2) as bottom_edge, " \
-                 "(center_x - diameter/2) as left_edge, " \
-                 "(center_x + diameter/2) as right_edge")
+                 "(center_y + diameter * 0.5) as top_edge, " \
+                 "(center_y - diameter * 0.5) as bottom_edge, " \
+                 "(center_x - diameter * 0.5) as left_edge, " \
+                 "(center_x + diameter * 0.5) as right_edge")
         }
 
   def self.metrics_for_frame(frame_id)
