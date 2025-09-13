@@ -6,22 +6,6 @@ class Frame < ApplicationRecord
 
   validate :no_overlapping_frames
 
-  private
-
-  def no_overlapping_frames
-    overlapping_frames = Frame.where.not(id: id).where(
-      "(center_x - width/2) < ? AND (center_x + width/2) > ? AND " \
-      "(center_y - height/2) < ? AND (center_y + height/2) > ?",
-      center_x + width / 2, center_x - width / 2,
-      center_y + height / 2, center_y - height / 2
-    )
-
-    if overlapping_frames.exists?
-      errors.add(:base, "Quadros não podem estar sobrepostos")
-    end
-  end
-
-  # Métodos para calcular bordas considerando coordenadas negativas
   def left_edge
     center_x - width / 2
   end
@@ -36,5 +20,20 @@ class Frame < ApplicationRecord
 
   def bottom_edge
     center_y - height / 2
+  end
+
+  private
+
+  def no_overlapping_frames
+    overlapping_frames = Frame.where.not(id: id).where(
+      "(center_x - width/2) < ? AND (center_x + width/2) > ? AND " \
+      "(center_y - height/2) < ? AND (center_y + height/2) > ?",
+      center_x + width / 2, center_x - width / 2,
+      center_y + height / 2, center_y - height / 2
+    )
+
+    if overlapping_frames.exists?
+      errors.add(:base, "Quadros não podem estar sobrepostos")
+    end
   end
 end
