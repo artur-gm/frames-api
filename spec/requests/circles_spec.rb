@@ -1,9 +1,6 @@
 require "swagger_helper"
 
 RSpec.describe "circles", type: :request do
-  let(:frame) { FactoryBot.create(:frame) }
-  let(:circle) { FactoryBot.create(:circle, frame: frame) }
-
   path "/circles" do
     get("listar circulos") do
       tags "Circulos"
@@ -35,6 +32,8 @@ RSpec.describe "circles", type: :request do
       end
 
       response(200, "filtrar por raio") do
+        let(:frame) { FactoryBot.create(:frame) }
+        let!(:circle1) { FactoryBot.create(:circle, frame: frame, center_x: 10, center_y: 10, diameter: 20) }
         let(:center_x) { 0 }
         let(:center_y) { 0 }
         let(:radius) { 25 }
@@ -134,6 +133,7 @@ RSpec.describe "circles", type: :request do
       tags "círculos"
 
       response(204, "sucesso") do
+        let(:circle) { FactoryBot.create(:circle) }
         let(:id) { circle.id }
 
         run_test! do |response|
