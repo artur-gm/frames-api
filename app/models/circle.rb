@@ -19,8 +19,12 @@ class Circle < ApplicationRecord
       lowest: circles.min_by(&:bottom_edge),
       leftmost: circles.min_by(&:left_edge),
       rightmost: circles.max_by(&:right_edge),
-      count: circles.size
+      count: circles.size,
     }
+  end
+
+  def radius
+    diameter / 2.0
   end
 
   def top_edge; read_attribute(:top_edge) || center_y + diameter / 2; end
