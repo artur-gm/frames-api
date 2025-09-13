@@ -7,7 +7,7 @@ FactoryBot.define do
 
     trait :with_circles do
       after(:create) do |frame|
-        create_list(:circle, 3, frame: frame)
+        create(:circle, frame: frame)
       end
     end
   end
