@@ -14,9 +14,9 @@ RSpec.describe "quadros", type: :request do
               center_x: { type: :number, format: :float },
               center_y: { type: :number, format: :float },
               width: { type: :number, format: :float },
-              height: { type: :number, format: :float },
+              height: { type: :number, format: :float }
             },
-            required: [:center_x, :center_y, :width, :height],
+            required: [ :center_x, :center_y, :width, :height ]
           },
           circles: {
             type: :array,
@@ -25,12 +25,12 @@ RSpec.describe "quadros", type: :request do
               properties: {
                 center_x: { type: :number, format: :float },
                 center_y: { type: :number, format: :float },
-                diameter: { type: :number, format: :float },
-              },
-            },
-          },
+                diameter: { type: :number, format: :float }
+              }
+            }
+          }
         },
-        required: [:frame],
+        required: [ :frame ]
       }
 
       response(201, "quadro criado com sucesso") do
@@ -40,16 +40,16 @@ RSpec.describe "quadros", type: :request do
               center_x: 100.5,
               center_y: 150.3,
               width: 200.0,
-              height: 300.0,
-            },
+              height: 300.0
+            }
           }
         end
 
         after do |example|
           example.metadata[:response][:content] = {
             "application/json" => {
-              example: JSON.parse(response.body, symbolize_names: true),
-            },
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
           }
         end
         run_test! do |response|
@@ -67,20 +67,20 @@ RSpec.describe "quadros", type: :request do
               center_x: 100.5,
               center_y: 150.3,
               width: 200.0,
-              height: 300.0,
+              height: 300.0
             },
             circles: [
               {
                 center_x: 110.0,
                 center_y: 160.0,
-                diameter: 30.0,
+                diameter: 30.0
               },
               {
                 center_x: 90.0,
                 center_y: 140.0,
-                diameter: 25.0,
-              },
-            ],
+                diameter: 25.0
+              }
+            ]
           }
         end
 
@@ -98,8 +98,8 @@ RSpec.describe "quadros", type: :request do
               center_x: -10,
               center_y: 150.3,
               width: -1,
-              height: 300.0,
-            },
+              height: 300.0
+            }
           }
         end
 
@@ -126,8 +126,8 @@ RSpec.describe "quadros", type: :request do
         after do |example|
           example.metadata[:response][:content] = {
             "application/json" => {
-              example: JSON.parse(response.body, symbolize_names: true),
-            },
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
           }
         end
 

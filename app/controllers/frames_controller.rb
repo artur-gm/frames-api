@@ -1,11 +1,11 @@
 class FramesController < ApplicationController
-  before_action :set_frame, only: [:show, :destroy]
+  before_action :set_frame, only: [ :show, :destroy ]
 
   # GET frames/:id
   def show
     render json: {
       frame: frame_details,
-      metrics: circle_metrics,
+      metrics: circle_metrics
     }, status: :ok
   end
 
@@ -18,7 +18,7 @@ class FramesController < ApplicationController
 
       render json: {
         frame: frame_details,
-        message: "Frame created successfully",
+        message: "Frame created successfully"
       }, status: :created
     else
       render json: { errors: @frame.errors.full_messages },
@@ -29,7 +29,7 @@ class FramesController < ApplicationController
   def destroy
     if @frame.circles.any?
       render json: {
-        error: "Não pode deletar quadro com círculos associados",
+        error: "Não pode deletar quadro com círculos associados"
       }, status: :unprocessable_content
     else
       @frame.destroy
@@ -66,7 +66,7 @@ def frame_details
     width: @frame.width,
     height: @frame.height,
     created_at: @frame.created_at,
-    updated_at: @frame.updated_at,
+    updated_at: @frame.updated_at
   }
 end
 
@@ -77,7 +77,7 @@ def circle_metrics
     highest_circle: circle_details(metrics[:highest], :top_edge),
     lowest_circle: circle_details(metrics[:lowest], :bottom_edge),
     leftmost_circle: circle_details(metrics[:leftmost], :left_edge),
-    rightmost_circle: circle_details(metrics[:rightmost], :right_edge),
+    rightmost_circle: circle_details(metrics[:rightmost], :right_edge)
   }
 end
 
@@ -89,7 +89,7 @@ def circle_details(circle, edge_type)
     center_x: circle.center_x,
     center_y: circle.center_y,
     diameter: circle.diameter,
-    edge_type => circle.send(edge_type),
+    edge_type => circle.send(edge_type)
   }
 end
 

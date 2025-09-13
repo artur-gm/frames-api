@@ -19,7 +19,7 @@ class Circle < ApplicationRecord
       lowest: circles.min_by(&:bottom_edge),
       leftmost: circles.min_by(&:left_edge),
       rightmost: circles.max_by(&:right_edge),
-      count: circles.size,
+      count: circles.size
     }
   end
 
