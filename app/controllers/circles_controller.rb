@@ -15,7 +15,7 @@ class CirclesController < ApplicationController
       render json: circle_attributes(@circle), status: :ok
     else
       render json: { errors: @circle.errors.full_messages },
-             status: :unprocessable_entity
+             status: :unprocessable_content
     end
   end
 
