@@ -22,7 +22,7 @@ class FramesController < ApplicationController
       }, status: :created
     else
       render json: { errors: @frame.errors.full_messages },
-             status: :unprocessable_entity
+             status: :unprocessable_content
     end
   end
 
@@ -47,7 +47,7 @@ end
 def set_frame
   @frame = Frame.find(params[:id])
 rescue ActiveRecord::RecordNotFound
-  render json: { error: "Quadro não encontrado" }, status: :unprocessable_content
+  render json: { error: "Quadro não encontrado" }, status: :not_found
 end
 
 def frame_details
