@@ -106,7 +106,7 @@ RSpec.describe "quadros", type: :request do
         run_test! do |response|
           data = JSON.parse(response.body)
           expect(data["errors"]).to be_present
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
       end
     end
@@ -115,11 +115,11 @@ RSpec.describe "quadros", type: :request do
   path "/frames/{id}" do
     parameter name: "id", in: :path, type: :string, description: "Frame ID"
 
-    get("show frame") do
-      tags "Frames"
+    get("mostrar quadro") do
+      tags "Quadros"
       produces "application/json"
 
-      response(200, "successful") do
+      response(200, "sucesso") do
         let(:frame) { FactoryBot.create(:frame, :with_circles) }
         let(:id) { frame.id }
 
@@ -145,21 +145,21 @@ RSpec.describe "quadros", type: :request do
         end
       end
 
-      response(404, "frame not found") do
+      response(404, "quadro não encontrado") do
         let(:id) { "invalid_id" }
 
         run_test! do |response|
           data = JSON.parse(response.body)
-          expect(data["error"]).to eq("Frame not found")
+          expect(data["error"]).to eq("Quadro não encontrado")
           expect(response).to have_http_status(:not_found)
         end
       end
     end
 
-    delete("delete frame") do
-      tags "Frames"
+    delete("deletar quadro") do
+      tags "Quadros"
 
-      response(204, "frame deleted successfully") do
+      response(204, "quadro deletado com sucesso") do
         let(:frame) { FactoryBot.create(:frame) } # Frame sem círculos
         let(:id) { frame.id }
 
@@ -169,18 +169,18 @@ RSpec.describe "quadros", type: :request do
         end
       end
 
-      response(422, "cannot delete frame with circles") do
+      response(422, "não pode deletar quadros com circulos") do
         let(:frame) { FactoryBot.create(:frame, :with_circles) }
         let(:id) { frame.id }
 
         run_test! do |response|
           data = JSON.parse(response.body)
-          expect(data["error"]).to include("Cannot delete frame with associated circles")
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(data["error"]).to include("Não pode deletar quadro com círculos associados")
+          expect(response).to have_http_status(:unprocessable_content)
         end
       end
 
-      response(404, "frame not found") do
+      response(404, "quadro não encontrado") do
         let(:id) { "invalid_id" }
 
         run_test! do |response|
