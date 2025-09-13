@@ -27,6 +27,14 @@ class FramesController < ApplicationController
   end
 
   def destroy
+    if @frame.circles.any?
+      render json: {
+        error: "Não pode deletar quadro com círculos associados",
+      }, status: :unprocessable_content
+    else
+      @frame.destroy
+      head :no_content
+    end
   end
 end
 
