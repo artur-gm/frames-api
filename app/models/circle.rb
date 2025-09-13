@@ -33,10 +33,10 @@ class Circle < ApplicationRecord
     diameter / 2.0
   end
 
-  def top_edge; read_attribute(:top_edge) || center_y + diameter / 2; end
-  def bottom_edge; read_attribute(:bottom_edge) || center_y - diameter / 2; end
-  def left_edge; read_attribute(:left_edge) || center_x - diameter / 2; end
-  def right_edge; read_attribute(:right_edge) || center_x + diameter / 2; end
+  def top_edge; read_attribute(:top_edge) || center_y + radius; end
+  def bottom_edge; read_attribute(:bottom_edge) || center_y - radius; end
+  def left_edge; read_attribute(:left_edge) || center_x - radius; end
+  def right_edge; read_attribute(:right_edge) || center_x + radius; end
 
   private
 
