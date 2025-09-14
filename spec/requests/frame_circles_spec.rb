@@ -85,7 +85,7 @@ RSpec.describe 'FrameCircles', type: :request do
         run_test! do |response|
           data = JSON.parse(response.body)
           expect(data['errors']).to be_present
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
       end
 
@@ -105,7 +105,7 @@ RSpec.describe 'FrameCircles', type: :request do
         run_test! do |response|
           data = JSON.parse(response.body)
           expect(data['errors']).to include('Circulos não podem se tocar ou se sobrepor')
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
       end
 
