@@ -28,8 +28,8 @@ class Frame < ApplicationRecord
     overlapping_frames = Frame.where.not(id: id).where(
       "(center_x - width/2) < ? AND (center_x + width/2) > ? AND " \
       "(center_y - height/2) < ? AND (center_y + height/2) > ?",
-      center_x + width / 2, center_x - width / 2,
-      center_y + height / 2, center_y - height / 2
+      right_edge, left_edge,
+      top_edge, bottom_edge
     )
 
     if overlapping_frames.exists?
