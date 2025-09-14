@@ -15,5 +15,15 @@ FactoryBot.define do
       center_x { -100.0 }
       center_y { -100.0 }
     end
+
+    trait :sequential do
+      sequence(:center_x) { |n| n * 10 }
+      sequence(:center_y) { |n| n * 10 }
+    end
+
+    trait :small do
+      width { 5.0 }
+      height { 5.0 }
+    end
   end
 end
