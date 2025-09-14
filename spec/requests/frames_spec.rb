@@ -33,34 +33,7 @@ RSpec.describe "quadros", type: :request do
         required: [ :frame ]
       }
 
-      response(201, "quadro criado com sucesso") do
-        let(:frame) do
-          {
-            frame: {
-              center_x: 100.5,
-              center_y: 150.3,
-              width: 200.0,
-              height: 300.0
-            }
-          }
-        end
-
-        after do |example|
-          example.metadata[:response][:content] = {
-            "application/json" => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
-        run_test! do |response|
-          data = JSON.parse(response.body)
-          expect(data["frame"]["center_x"].to_d).to eq(100.5)
-          expect(data["frame"]["center_y"].to_d).to eq(150.3)
-          expect(response).to have_http_status(:created)
-        end
-      end
-
-      response(201, "quadro com circulos criado com sucesso") do
+      response(201, "quadro com circulos criado") do
         let(:frame) do
           {
             frame: {
@@ -88,6 +61,53 @@ RSpec.describe "quadros", type: :request do
           data = JSON.parse(response.body)
           expect(data["frame"]["width"].to_d).to eq(200.0)
           expect(response).to have_http_status(:created)
+        end
+      end
+
+      response(201, "quadro criado") do
+        let(:frame) do
+          {
+            frame: {
+              center_x: 100.5,
+              center_y: 150.3,
+              width: 200.0,
+              height: 300.0
+            }
+          }
+        end
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            "application/json" => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data["frame"]["center_x"].to_d).to eq(100.5)
+          expect(data["frame"]["center_y"].to_d).to eq(150.3)
+          expect(response).to have_http_status(:created)
+        end
+      end
+
+      response(422, "quadros sobrepostos") do
+        let!(:existing_frame) { FactoryBot.create(:frame, center_x: 0, center_y: 0, width: 200, height: 200) }
+        let(:frame) do
+          {
+            frame: {
+              center_x: 50,
+              center_y: 50,
+              width: 200,
+              height: 200
+            }
+          }
+        end
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data["errors"]).to include("Quadros não podem estar sobrepostos")
+          expect(response).to have_http_status(:unprocessable_content)
         end
       end
 
@@ -119,7 +139,7 @@ RSpec.describe "quadros", type: :request do
       tags "Quadros"
       produces "application/json"
 
-      response(200, "sucesso") do
+      response(200, "quadro encontrado") do
         let(:frame) { FactoryBot.create(:frame, :with_circles) }
         let(:id) { frame.id }
 
@@ -159,7 +179,7 @@ RSpec.describe "quadros", type: :request do
     delete("deletar quadro") do
       tags "Quadros"
 
-      response(204, "quadro deletado com sucesso") do
+      response(204, "quadro deletado") do
         let(:frame) { FactoryBot.create(:frame) } # Frame sem círculos
         let(:id) { frame.id }
 
