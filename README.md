@@ -1,4 +1,9 @@
-# README
+# frames-api
+
+![Coverage](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fartur-gm%2Fframes-api%2Frefs%2Fheads%2Fmain%2Fcoverage%2F.last_run.json&query=%24.result.line&label=coverage&color=green)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/artur-gm/frames-api/ci.yml)
+![Rails Version](https://img.shields.io/badge/Rails-8-blue)
+
 
 API para gerenciar quadros e círculos dentro deles.
 
