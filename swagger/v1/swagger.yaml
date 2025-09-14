@@ -1,0 +1,205 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/circles":
+    get:
+      summary: listar circulos num raio
+      tags:
+      - Circulos
+      parameters:
+      - name: center_x
+        in: query
+        required: true
+        schema:
+          type: number
+      - name: center_y
+        in: query
+        required: true
+        schema:
+          type: number
+      - name: radius
+        in: query
+        required: true
+        schema:
+          type: number
+      - name: frame_id
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: círculo encontrado
+        '400':
+          description: parâmetros obrigatórios ausentes
+  "/circles/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Circle ID
+      required: true
+      schema:
+        type: string
+    put:
+      summary: atualizar circulo
+      tags:
+      - Circulos
+      parameters: []
+      responses:
+        '200':
+          description: sucesso
+        '422':
+          description: parametros invalidos
+        '404':
+          description: círculo não encontrado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                circle:
+                  type: object
+                  properties:
+                    center_x:
+                      type: number
+                    center_y:
+                      type: number
+                    diameter:
+                      type: number
+              required:
+              - circle
+    delete:
+      summary: deletar círculo
+      tags:
+      - Circulos
+      responses:
+        '204':
+          description: sucesso
+        '404':
+          description: círculo não encontrado
+  "/frames/{frame_id}/circles":
+    parameters:
+    - name: frame_id
+      in: path
+      description: Frame ID
+      required: true
+      schema:
+        type: string
+    post:
+      summary: criar círculo
+      tags:
+      - Circulos
+      parameters: []
+      responses:
+        '201':
+          description: círculo criado com sucesso
+        '422':
+          description: parâmetros do círculo inválidos
+        '404':
+          description: quadro não encontrado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                center_x:
+                  type: number
+                center_y:
+                  type: number
+                diameter:
+                  type: number
+              required:
+              - center_x
+              - center_y
+              - diameter
+  "/frames":
+    post:
+      summary: criar quadro
+      tags:
+      - Quadros
+      parameters: []
+      responses:
+        '201':
+          description: quadro criado
+        '422':
+          description: parametros invalidos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                frame:
+                  type: object
+                  properties:
+                    center_x:
+                      type: number
+                      format: float
+                    center_y:
+                      type: number
+                      format: float
+                    width:
+                      type: number
+                      format: float
+                    height:
+                      type: number
+                      format: float
+                  required:
+                  - center_x
+                  - center_y
+                  - width
+                  - height
+                circles:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      center_x:
+                        type: number
+                        format: float
+                      center_y:
+                        type: number
+                        format: float
+                      diameter:
+                        type: number
+                        format: float
+              required:
+              - frame
+  "/frames/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: Frame ID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: mostrar quadro
+      tags:
+      - Quadros
+      responses:
+        '200':
+          description: quadro encontrado
+        '404':
+          description: quadro não encontrado
+    delete:
+      summary: deletar quadro
+      tags:
+      - Quadros
+      responses:
+        '204':
+          description: quadro deletado
+        '422':
+          description: não pode deletar quadros com circulos
+        '404':
+          description: quadro não encontrado
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
