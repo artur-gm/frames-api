@@ -2,10 +2,10 @@ class CirclesController < ApplicationController
   before_action :set_circle, only: [ :update, :destroy ]
 
   def index
-    circles = Circle.all
-
+    return render json: { error: "Parâmetros center_x, center_y e radius são obrigatórios" }, status: :bad_request unless
+           params[:center_x].present? && params[:center_y].present? && params[:radius].present?
+    circles = Circle.within_radius(params[:center_x], params[:center_y], params[:radius])
     circles = filter_by_frame(circles)
-    circles = filter_by_radius(circles)
 
     render json: circles.map { |circle| circle_attributes(circle) }, status: :ok
   end
@@ -41,22 +41,6 @@ class CirclesController < ApplicationController
     circles.where(frame_id: params[:frame_id])
   end
 
-  def filter_by_radius(circles)
-    return circles unless params[:center_x].present? && params[:center_y].present? && params[:radius].present?
-
-    center_x = params[:center_x].to_f
-    center_y = params[:center_y].to_f
-    radius = params[:radius].to_f
-
-    circles.select do |circle|
-      distance = Math.sqrt(
-        (circle.center_x - center_x) ** 2 +
-        (circle.center_y - center_y) ** 2
-      )
-
-      distance + circle.radius <= radius
-    end
-  end
 
   def circle_attributes(circle)
     {

@@ -15,6 +15,12 @@ class Circle < ApplicationRecord
                  "(center_x + diameter * 0.5) as right_edge")
         }
 
+  scope :within_radius, ->(center_x, center_y, radius) {
+    where(
+      "SQRT(POWER(center_x - ?, 2) + POWER(center_y - ?, 2)) + (diameter * 0.5) <= ?",
+      center_x.to_f, center_y.to_f, radius.to_f
+    )
+  }
   def self.metrics_for_frame(frame_id)
     circles = where(frame_id: frame_id).with_calculated_edges.to_a
 

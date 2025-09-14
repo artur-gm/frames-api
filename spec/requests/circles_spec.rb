@@ -2,38 +2,37 @@ require "swagger_helper"
 
 RSpec.describe "circles", type: :request do
   path "/circles" do
-    get("listar circulos") do
+    get("listar circulos num raio") do
       tags "Circulos"
       produces "application/json"
-      parameter name: :center_x, in: :query, type: :number, required: false
-      parameter name: :center_y, in: :query, type: :number, required: false
-      parameter name: :radius, in: :query, type: :number, required: false
+      parameter name: :center_x, in: :query, type: :number, required: true
+      parameter name: :center_y, in: :query, type: :number, required: true
+      parameter name: :radius, in: :query, type: :number, required: true
       parameter name: :frame_id, in: :query, type: :integer, required: false
 
-      response(200, "sucesso") do
-        let(:frame) { FactoryBot.create(:frame) }
-        let!(:circle1) { FactoryBot.create(:circle, frame: frame, center_x: 10, center_y: 10, diameter: 20) }
-        let!(:circle2) { FactoryBot.create(:circle, frame: frame, center_x: 30, center_y: 30, diameter: 20) }
 
-        after do |example|
-          example.metadata[:response][:content] = {
-            "application/json" => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
-        end
+
+      response(200, "filtrar por quadro") do
+        let(:frame) { FactoryBot.create(:frame, :negative_coordinates) }
+        let(:frame1) { FactoryBot.create(:frame) }
+        let!(:circle) { FactoryBot.create(:circle, :negative_coordinates, frame: frame) }
+        let!(:circle1) { FactoryBot.create(:circle, frame: frame1) }
+        let(:frame_id) { frame1.id }
+        let(:center_x) { 0 }
+        let(:center_y) { 0 }
+        let(:radius) { 500 }
 
         run_test! do |response|
           data = JSON.parse(response.body)
-          expect(data).to be_an(Array)
-          expect(data.size).to eq(2)
-          expect(response).to have_http_status(:ok)
+          expect(data.size).to eq(1)
+          expect(data.first["frame_id"]).to eq(frame1.id)
         end
       end
 
-      response(200, "filtrar por raio") do
+      response(200, "círculo encontrado") do
         let(:frame) { FactoryBot.create(:frame) }
         let!(:circle1) { FactoryBot.create(:circle, frame: frame, center_x: 10, center_y: 10, diameter: 20) }
+        let!(:circle2) { FactoryBot.create(:circle, frame: frame, center_x: 30, center_y: 30, diameter: 20) }
         let(:center_x) { 0 }
         let(:center_y) { 0 }
         let(:radius) { 25 }
@@ -45,15 +44,14 @@ RSpec.describe "circles", type: :request do
         end
       end
 
-      response(200, "filtrar por quadro") do
-        let(:frame2) { FactoryBot.create(:frame) }
-        let!(:circle3) { FactoryBot.create(:circle, frame: frame2) }
-        let(:frame_id) { frame2.id }
+      response(400, "parâmetros obrigatórios ausentes") do
+        let(:center_x) { nil }
+        let(:center_y) { nil }
+        let(:radius) { nil }
 
         run_test! do |response|
           data = JSON.parse(response.body)
-          expect(data.size).to eq(1)
-          expect(data.first["frame_id"]).to eq(frame2.id)
+          expect(data["error"]).to eq("Parâmetros center_x, center_y e radius são obrigatórios")
         end
       end
     end
@@ -130,7 +128,7 @@ RSpec.describe "circles", type: :request do
     end
 
     delete("deletar círculo") do
-      tags "círculos"
+      tags "Circulos"
 
       response(204, "sucesso") do
         let(:circle) { FactoryBot.create(:circle) }
