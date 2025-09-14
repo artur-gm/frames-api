@@ -7,7 +7,7 @@ RSpec.describe 'FrameCircles', type: :request do
     parameter name: 'frame_id', in: :path, type: :string, description: 'Frame ID'
 
     post('criar círculo') do
-      tags 'Circles'
+      tags 'Circulos'
       consumes 'application/json'
       parameter name: :circle, in: :body, schema: {
         type: :object,
@@ -18,6 +18,27 @@ RSpec.describe 'FrameCircles', type: :request do
         },
         required: [ :center_x, :center_y, :diameter ]
       }
+
+      response(201, 'círculo com coordenadas negativas criado com sucesso') do
+        let(:frame) { FactoryBot.create(:frame, :negative_coordinates) }
+        let(:frame_id) { frame.id }
+        let(:circle) do
+          {
+            circle: {
+              center_x: -50.0,
+              center_y: -60.0,
+              diameter: 20.0
+            }
+          }
+        end
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data['circle']['center_x'].to_f).to eq(-50.0)
+          expect(data['circle']['center_y'].to_f).to eq(-60.0)
+          expect(response).to have_http_status(:created)
+        end
+      end
 
       response(201, 'círculo criado com sucesso') do
         let(:frame_id) { frame.id }
@@ -48,25 +69,23 @@ RSpec.describe 'FrameCircles', type: :request do
           expect(response).to have_http_status(:created)
         end
       end
-
-      response(201, 'círculo com coordenadas negativas criado com sucesso') do
-        let(:frame) { FactoryBot.create(:frame, :negative_coordinates) }
+      response(422, 'círculo toca outro círculo') do
         let(:frame_id) { frame.id }
+        let!(:existing_circle) { FactoryBot.create(:circle, frame: frame, center_x: 30.0, center_y: 30.0, diameter: 30.0) }
         let(:circle) do
           {
             circle: {
-              center_x: -50.0,
-              center_y: -60.0,
-              diameter: 20.0
+              center_x: 60.0, # Muito próximo do círculo existente
+              center_y: 30.0,
+              diameter: 30.0
             }
           }
         end
 
         run_test! do |response|
           data = JSON.parse(response.body)
-          expect(data['circle']['center_x'].to_f).to eq(-50.0)
-          expect(data['circle']['center_y'].to_f).to eq(-60.0)
-          expect(response).to have_http_status(:created)
+          expect(data['errors']).to include('Circulos não podem se tocar ou se sobrepor')
+          expect(response).to have_http_status(:unprocessable_content)
         end
       end
 
@@ -89,25 +108,6 @@ RSpec.describe 'FrameCircles', type: :request do
         end
       end
 
-      response(422, 'círculo toca outro círculo') do
-        let(:frame_id) { frame.id }
-        let!(:existing_circle) { FactoryBot.create(:circle, frame: frame, center_x: 30.0, center_y: 30.0, diameter: 30.0) }
-        let(:circle) do
-          {
-            circle: {
-              center_x: 60.0, # Muito próximo do círculo existente
-              center_y: 30.0,
-              diameter: 30.0
-            }
-          }
-        end
-
-        run_test! do |response|
-          data = JSON.parse(response.body)
-          expect(data['errors']).to include('Circulos não podem se tocar ou se sobrepor')
-          expect(response).to have_http_status(:unprocessable_content)
-        end
-      end
 
       response(404, 'quadro não encontrado') do
         let(:frame_id) { 'invalid-id' }
