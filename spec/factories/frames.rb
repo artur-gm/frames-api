@@ -10,5 +10,10 @@ FactoryBot.define do
         create(:circle, frame: frame)
       end
     end
+
+    trait :negative_coordinates do
+      center_x { -100.0 }
+      center_y { -100.0 }
+    end
   end
 end
