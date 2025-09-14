@@ -11,8 +11,8 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.0].define(version: 2025_09_12_193536) do
-  create_table "circles", force: :cascade do |t|
-    t.integer "frame_id", null: false
+  create_table "circles", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "frame_id", null: false
     t.decimal "center_x", precision: 10, scale: 2
     t.decimal "center_y", precision: 10, scale: 2
     t.decimal "diameter", precision: 10, scale: 2
@@ -21,7 +21,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_12_193536) do
     t.index ["frame_id"], name: "index_circles_on_frame_id"
   end
 
-  create_table "frames", force: :cascade do |t|
+  create_table "frames", charset: "utf8mb4", force: :cascade do |t|
     t.decimal "center_x", precision: 10, scale: 2
     t.decimal "center_y", precision: 10, scale: 2
     t.decimal "width", precision: 10, scale: 2
