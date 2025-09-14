@@ -56,11 +56,11 @@ jobs:
 
     env:
       RAILS_ENV: test
-      DB_HOST: localhost
+      DB_HOST: 127.0.0.1
       DB_PORT: 3306
       DB_USERNAME: root
       DB_PASSWORD: password
-      DATABASE_URL: mysql2://root:password@localhost:3306/app_test
+      DATABASE_URL: mysql2://root:password@127.0.0.1:3306/app_test
 
     steps:
       - name: Install packages
