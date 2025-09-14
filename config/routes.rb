@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  mount Rswag::Ui::Engine => "/api-docs"
+  mount Rswag::Ui::Engine => "/"
   mount Rswag::Api::Engine => "/api-docs"
   resources :frames, only: [ :show, :create, :destroy ] do
     resources :circles, only: [ :create ], controller: "frame_circles"
