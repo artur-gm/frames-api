@@ -25,5 +25,10 @@ FactoryBot.define do
       width { 5.0 }
       height { 5.0 }
     end
+
+    trait :huge do
+      width { 100000.0 }
+      height { 100000.0 }
+    end
   end
 end

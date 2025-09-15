@@ -13,4 +13,14 @@ RSpec.describe 'Performance da validação de quadros', type: :performance do
 
     expect(time).to be < 0.01 # Menos de 10ms
   end
+
+  it 'valida rapidamente com muitos quadros e quadro sobreposto' do
+    new_frame = FactoryBot.build(:frame)
+
+    time = Benchmark.realtime do
+      new_frame.valid?
+    end
+
+    expect(time).to be < 0.01 # Menos de 10ms
+  end
 end
