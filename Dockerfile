@@ -1,10 +1,10 @@
-FROM ruby:3.1.0
+FROM ruby:3.4.5
 
 # Instalar dependências do MySQL e development tools
 RUN apt-get update -qq && \
     apt-get install -y \
     default-mysql-client \
-    libmysqlclient-dev \
+    default-libmysqlclient-dev \
     build-essential \
     curl && \
     rm -rf /var/lib/apt/lists/*
@@ -27,7 +27,7 @@ COPY . .
 EXPOSE 3000
 
 # Script de entrada
-COPY entrypoint.sh /usr/bin/
+COPY bin/entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 

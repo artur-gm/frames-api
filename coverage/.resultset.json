@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/artur/git/frames-api/app/models/frame.rb": {
+      "/app/app/models/frame.rb": {
         "lines": [
           1,
           1,
@@ -44,14 +44,14 @@
           null
         ]
       },
-      "/home/artur/git/frames-api/app/models/application_record.rb": {
+      "/app/app/models/application_record.rb": {
         "lines": [
           1,
           1,
           null
         ]
       },
-      "/home/artur/git/frames-api/app/models/circle.rb": {
+      "/app/app/models/circle.rb": {
         "lines": [
           1,
           1,
@@ -134,7 +134,7 @@
           null
         ]
       },
-      "/home/artur/git/frames-api/app/controllers/circles_controller.rb": {
+      "/app/app/controllers/circles_controller.rb": {
         "lines": [
           1,
           1,
@@ -194,13 +194,13 @@
           null
         ]
       },
-      "/home/artur/git/frames-api/app/controllers/application_controller.rb": {
+      "/app/app/controllers/application_controller.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/home/artur/git/frames-api/app/controllers/frame_circles_controller.rb": {
+      "/app/app/controllers/frame_circles_controller.rb": {
         "lines": [
           1,
           1,
@@ -240,7 +240,7 @@
           null
         ]
       },
-      "/home/artur/git/frames-api/app/controllers/frames_controller.rb": {
+      "/app/app/controllers/frames_controller.rb": {
         "lines": [
           1,
           1,
@@ -345,7 +345,7 @@
           null
         ]
       },
-      "/home/artur/git/frames-api/app/jobs/application_job.rb": {
+      "/app/app/jobs/application_job.rb": {
         "lines": [
           0,
           null,
@@ -357,7 +357,7 @@
         ],
         "branches": {}
       },
-      "/home/artur/git/frames-api/app/mailers/application_mailer.rb": {
+      "/app/app/mailers/application_mailer.rb": {
         "lines": [
           0,
           0,
@@ -367,6 +367,6 @@
         "branches": {}
       }
     },
-    "timestamp": 1757888746
+    "timestamp": 1757902955
   }
 }
