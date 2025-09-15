@@ -4,10 +4,9 @@
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/artur-gm/frames-api/ci.yml)
 ![Rails Version](https://img.shields.io/badge/Rails-8-blue)
 
+API restful para gerenciamento de quadros e círculos dentro deles.
 
-API para gerenciar quadros e círculos dentro deles.
-
-A documentação da API estará disponível em: http://localhost:3000/ (HTML) e http://localhost:3000/api-docs/v1/swagger.yaml (YAML).
+Ao subir o servidor, a documentação interativa estará disponível em: <http://localhost:3000/>, ou em YAML em <http://localhost:3000/api-docs/v1/swagger.yaml>
 
 ## Requisitos
 
@@ -28,32 +27,37 @@ A documentação da API estará disponível em: http://localhost:3000/ (HTML) e 
    cd frames-api
    ```
 
-3. Use os scripts fornecidos na pasta `bin`:
+3. Execute o setup inicial:
+
+   ```bash
+   chmod +x bin/*
+   bash bin/setup.sh
+   ```
+
+4. Use os scripts fornecidos na pasta `bin`:
     - Para iniciar o ambiente de desenvolvimento:
 
       ```bash
-      ./bin/dev.sh
+      bash /bin/dev.sh
       ```
 
     - Para executar testes:
 
       ```bash
-      ./bin/test.sh
+      bash /bin/test.sh
       ```
 
     - Para abrir o console do Rails:
         Com o container rodando, execute:
 
         ```bash
-        ./bin/console.sh
+        bash /bin/console.sh
         ```
 
-    3.1. Caso não esteja usando Linux, pode iniciar o ambiente com Docker Compose diretamente:
+    4.1. Caso não esteja usando Linux, pode iniciar o ambiente com Docker Compose diretamente:
 
     ```bash
     docker-compose up --build
     ```
 
-
-4. A API estará disponível em `http://localhost:3000`.
-
+5. A API estará disponível em `http://localhost:3000`.
