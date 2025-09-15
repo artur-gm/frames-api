@@ -32,7 +32,7 @@ A documentação da API estará disponível em: http://localhost:3000/ (HTML) e 
     - Para iniciar o ambiente de desenvolvimento:
 
       ```bash
-      ./bin/setup.sh
+      ./bin/dev.sh
       ```
 
     - Para executar testes:
@@ -42,17 +42,18 @@ A documentação da API estará disponível em: http://localhost:3000/ (HTML) e 
       ```
 
     - Para abrir o console do Rails:
+        Com o container rodando, execute:
 
         ```bash
         ./bin/console.sh
         ```
 
-    3.1. Caso não esteja usando Linux, pode usar
+    3.1. Caso não esteja usando Linux, pode iniciar o ambiente com Docker Compose diretamente:
 
     ```bash
-    docker-compose build
-    docker-compose
+    docker-compose up --build
     ```
+
 
 4. A API estará disponível em `http://localhost:3000`.
 
